@@ -4,8 +4,11 @@
 
 AMovingActor::AMovingActor()
 {
-	
 	PrimaryActorTick.bCanEverTick = true;
+	StartLocation = GetActorLocation();
+	MoveSpeed = 10.f;
+	MaxRange = 200.f;
+	CurrentRange = 0.f;
 }
 
 
