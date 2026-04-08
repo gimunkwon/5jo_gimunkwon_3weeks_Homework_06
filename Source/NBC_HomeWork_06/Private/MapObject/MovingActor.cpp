@@ -36,7 +36,7 @@ void AMovingActor::Tick(float DeltaTime)
 		AddActorWorldOffset(DeltaLocation);
 		
 		CurrentRange += MoveAmount;
-		UE_LOG(LogTemp,Warning,TEXT("Current Range : %f"),CurrentRange);
+		// UE_LOG(LogTemp,Warning,TEXT("Current Range : %f"),CurrentRange);
 	}
 	else
 	{
