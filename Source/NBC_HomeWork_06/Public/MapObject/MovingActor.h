@@ -13,7 +13,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 protected:
 	virtual void BeginPlay() override;
-	
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite, Category="Mesh")
+	UStaticMeshComponent* StaticMesh;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Location")
 	FVector StartLocation;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Location|Speed")

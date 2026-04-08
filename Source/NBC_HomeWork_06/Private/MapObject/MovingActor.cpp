@@ -5,8 +5,12 @@
 AMovingActor::AMovingActor()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	StartLocation = GetActorLocation();
-	MoveSpeed = 10.f;
+	
+	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+	StaticMesh->SetupAttachment(RootComponent);
+	StaticMesh->SetCollisionProfileName(TEXT("NoCollision"));
+	
+	MoveSpeed = 1.f;
 	MaxRange = 200.f;
 	CurrentRange = 0.f;
 }
@@ -15,6 +19,7 @@ AMovingActor::AMovingActor()
 void AMovingActor::BeginPlay()
 {
 	Super::BeginPlay();
+	StartLocation = GetActorLocation();
 	
 }
 
@@ -22,5 +27,20 @@ void AMovingActor::BeginPlay()
 void AMovingActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	if (MaxRange >= CurrentRange)
+	{
+		float MoveAmount = MoveSpeed * DeltaTime;
+		FVector DeltaLocation = FVector::UpVector * MoveAmount;
+		
+		AddActorWorldOffset(DeltaLocation);
+		
+		CurrentRange += MoveAmount;
+		UE_LOG(LogTemp,Warning,TEXT("Current Range : %f"),CurrentRange);
+	}
+	else
+	{
+		Destroy();
+	}
 }
 
