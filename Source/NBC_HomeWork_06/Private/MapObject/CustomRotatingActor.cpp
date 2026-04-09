@@ -64,5 +64,5 @@ void ACustomRotatingActor::Spin(float DeltaTime)
 		CurrentSpinAmount += fRotate_Amount;
 	}
 
-	UE_LOG(LogTemp,Warning,TEXT("Current SpinAmount %f"),CurrentSpinAmount);
+	// UE_LOG(LogTemp,Warning,TEXT("Current SpinAmount %f"),CurrentSpinAmount);
 }
