@@ -48,31 +48,8 @@ void AMovingActor::Tick(float DeltaTime)
 	}
 	else
 	{
-		if (RotatingActorClass)
-		{
-			if (GetWorld())
-			{
-				FVector Location(GetActorLocation().X,GetActorLocation().Y,1530.f);
-				FRotator Rotation = FRotator::ZeroRotator;
-				FVector Scale(2.f,2.f,2.f);
-				
-				FTransform SpawnTransform(Rotation,Location,Scale);
-				GetWorld()->SpawnActor<AActor>(RotatingActorClass, SpawnTransform);
-			}
-		}
-		if (PointLightClass)
-		{
-			if (GetWorld())
-			{
-				FVector LightLocation = GetActorLocation() - FVector(0.f,0.f,100.f);
-				
-				GetWorld()->SpawnActor<APointLight>(PointLightClass, LightLocation, FRotator::ZeroRotator);
-			}
-		}
-		if (OnMovingDestroyed.IsBound())
-		{
-			OnMovingDestroyed.Broadcast();
-		}
+		SpawnRotatingActor();
+		SpawnPointLight();
 		PlayBGM();
 		Destroy();
 	}
@@ -90,5 +67,38 @@ void AMovingActor::PlayBGM()
 	if (BGMSound)
 	{
 		AudioComp = UGameplayStatics::SpawnSound2D(GetWorld(), BGMSound);
+	}
+}
+
+void AMovingActor::SpawnRotatingActor()
+{
+	if (RotatingActorClass)
+	{
+		if (GetWorld())
+		{
+			FVector Location(GetActorLocation().X,GetActorLocation().Y,1530.f);
+			FRotator Rotation = FRotator::ZeroRotator;
+			FVector Scale(2.f,2.f,2.f);
+				
+			FTransform SpawnTransform(Rotation,Location,Scale);
+			GetWorld()->SpawnActor<AActor>(RotatingActorClass, SpawnTransform);
+		}
+	}
+}
+
+void AMovingActor::SpawnPointLight()
+{
+	if (PointLightClass)
+	{
+		if (GetWorld())
+		{
+			FVector LightLocation = GetActorLocation() - FVector(0.f,0.f,100.f);
+				
+			GetWorld()->SpawnActor<APointLight>(PointLightClass, LightLocation, FRotator::ZeroRotator);
+		}
+	}
+	if (OnMovingDestroyed.IsBound())
+	{
+		OnMovingDestroyed.Broadcast();
 	}
 }

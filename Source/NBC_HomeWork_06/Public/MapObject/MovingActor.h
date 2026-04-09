@@ -44,4 +44,6 @@ private:
 	UPROPERTY()
 	UAudioComponent* AudioComp;
 	void PlayBGM();
+	void SpawnRotatingActor();
+	void SpawnPointLight();
 };
