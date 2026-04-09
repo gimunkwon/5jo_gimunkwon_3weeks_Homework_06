@@ -16,14 +16,14 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void Spin(float DeltaTime) override;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Spin")
-	int64 SpinCount;
-	// UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Anim|Montage")
-	// UAnimMontage* SpinMontage;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Anim|Montage")
+	UAnimMontage* SpinMontage;
 	
 	
 private:
 	float CurrentSpinAmount;
 	bool bIsSpinning;
 	FTimerHandle SpinTimerHandle;
+	UPROPERTY()
+	UAnimInstance* AnimInstance;
 };
