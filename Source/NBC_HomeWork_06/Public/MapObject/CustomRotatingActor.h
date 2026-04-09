@@ -4,6 +4,8 @@
 #include "RotatingActor.h"
 #include "CustomRotatingActor.generated.h"
 
+class AMovingActor;
+
 UCLASS()
 class NBC_HOMEWORK_06_API ACustomRotatingActor : public ARotatingActor
 {
@@ -12,12 +14,18 @@ class NBC_HOMEWORK_06_API ACustomRotatingActor : public ARotatingActor
 public:
 	ACustomRotatingActor();
 	virtual void Tick(float DeltaTime) override;
+	
+	UFUNCTION()
+	void OnMovingActorDestroyed();
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void Spin(float DeltaTime) override;
-	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Anim|Montage")
 	UAnimMontage* SpinMontage;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category="Delegates")
+	AMovingActor* DestroyMovingActor;
 	
 	
 private:

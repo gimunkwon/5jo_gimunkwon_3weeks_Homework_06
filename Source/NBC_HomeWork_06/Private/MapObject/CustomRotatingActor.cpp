@@ -1,11 +1,13 @@
 #include "NBC_HomeWork_06/Public/MapObject/CustomRotatingActor.h"
 
+#include "MapObject/MovingActor.h"
+
 
 ACustomRotatingActor::ACustomRotatingActor()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	CurrentSpinAmount = 0.f;
-	bIsSpinning = true;
+	bIsSpinning = false;
 	RotateCount = 1;
 }
 
@@ -18,6 +20,10 @@ void ACustomRotatingActor::BeginPlay()
 	if (SkeletalMesh)
 	{
 		AnimInstance = SkeletalMesh->GetAnimInstance();
+	}
+	if (DestroyMovingActor)
+	{
+		DestroyMovingActor->OnMovingDestroyed.AddDynamic(this, &ACustomRotatingActor::OnMovingActorDestroyed);
 	}
 }
 
@@ -32,6 +38,11 @@ void ACustomRotatingActor::Tick(float DeltaTime)
 	{
 		Spin(DeltaTime);
 	}
+}
+
+void ACustomRotatingActor::OnMovingActorDestroyed()
+{
+	bIsSpinning = true;
 }
 
 void ACustomRotatingActor::Spin(float DeltaTime)

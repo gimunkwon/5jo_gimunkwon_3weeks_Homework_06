@@ -4,6 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "MovingActor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnMovingActorDestroyed);
+
 UCLASS()
 class NBC_HOMEWORK_06_API AMovingActor : public AActor
 {
@@ -11,6 +13,9 @@ class NBC_HOMEWORK_06_API AMovingActor : public AActor
 public:
 	AMovingActor();
 	virtual void Tick(float DeltaTime) override;
+	
+	UPROPERTY()
+	FOnMovingActorDestroyed OnMovingDestroyed;
 protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite, Category="Mesh")
@@ -21,6 +26,10 @@ protected:
 	float MoveSpeed;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Location|Distance")
 	float MaxRange;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="SpawnActor")
+	TSubclassOf<class AActor> RotatingActorClass;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="SpawnActor")
+	TSubclassOf<class ALight> PointLightClass;
 	
 private:
 	float CurrentRange;
