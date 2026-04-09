@@ -8,14 +8,14 @@ ACustomRotatingActor::ACustomRotatingActor()
 	PrimaryActorTick.bCanEverTick = true;
 	CurrentSpinAmount = 0.f;
 	bIsSpinning = false;
-	RotateCount = 1;
+	SpinSpeed = 0.5f;
 }
 
 
 void ACustomRotatingActor::BeginPlay()
 {
 	Super::BeginPlay();
-	RotateAmount *= RotateCount;
+	RotateAmount *= RotateMinCount;
 	
 	if (SkeletalMesh)
 	{
@@ -25,6 +25,8 @@ void ACustomRotatingActor::BeginPlay()
 	{
 		DestroyMovingActor->OnMovingDestroyed.AddDynamic(this, &ACustomRotatingActor::OnMovingActorDestroyed);
 	}
+	int32 RandomSpinCount = FMath::RandRange(RotateMinCount, RotateMaxCount);
+	TargetSpinAmount = RandomSpinCount * RotateAmount;
 }
 
 
@@ -47,7 +49,7 @@ void ACustomRotatingActor::OnMovingActorDestroyed()
 
 void ACustomRotatingActor::Spin(float DeltaTime)
 {
-	if (CurrentSpinAmount >= RotateAmount)
+	if (CurrentSpinAmount >= TargetSpinAmount)
 	{
 		if (AnimInstance && SpinMontage)
 		{
@@ -57,6 +59,8 @@ void ACustomRotatingActor::Spin(float DeltaTime)
 		CurrentSpinAmount = 0.f;
 		GetWorld()->GetTimerManager().SetTimer(SpinTimerHandle, [this]()
 		{
+			int32 RandomSpinCount = FMath::RandRange(RotateMinCount, RotateMaxCount);
+			TargetSpinAmount = RandomSpinCount * RotateAmount;
 			bIsSpinning = true;
 		},4.f,false);
 	}
@@ -70,7 +74,7 @@ void ACustomRotatingActor::Spin(float DeltaTime)
 				AnimInstance->Montage_JumpToSection(FName("BeginSpin"), SpinMontage);
 			}
 		}
-		float fRotate_Amount = RotateAmount * DeltaTime;
+		float fRotate_Amount = (TargetSpinAmount * SpinSpeed) * DeltaTime;
 		AddActorLocalRotation(FRotator(0.f,fRotate_Amount,0.f));
 		CurrentSpinAmount += fRotate_Amount;
 	}

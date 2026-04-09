@@ -23,15 +23,15 @@ protected:
 	virtual void Spin(float DeltaTime) override;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Anim|Montage")
 	UAnimMontage* SpinMontage;
-	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category="Delegates")
 	AMovingActor* DestroyMovingActor;
-	
-	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Spin")
+	float SpinSpeed;
 private:
 	float CurrentSpinAmount;
 	bool bIsSpinning;
 	FTimerHandle SpinTimerHandle;
 	UPROPERTY()
 	UAnimInstance* AnimInstance;
+	float TargetSpinAmount;
 };
