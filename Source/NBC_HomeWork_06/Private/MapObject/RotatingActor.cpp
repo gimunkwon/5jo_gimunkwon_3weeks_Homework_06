@@ -4,8 +4,14 @@ ARotatingActor::ARotatingActor()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
+	SceneRootComp = CreateDefaultSubobject<USceneComponent>(TEXT("RootSceneComponent"));
+	RootComponent = SceneRootComp;
+	
 	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMesh"));
-	RotateCount = 0;
+	SkeletalMesh->SetupAttachment(SceneRootComp);
+	
+	RotateMinCount = 1;
+	RotateMaxCount = 1;
 	RotateAmount = 360.f;
 	StartRotation = GetActorRotation();
 }

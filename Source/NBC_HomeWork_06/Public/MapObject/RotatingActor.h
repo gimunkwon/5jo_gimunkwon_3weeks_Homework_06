@@ -14,12 +14,16 @@ public:
 	virtual void Tick(float DeltaTime) override;
 protected:
 	virtual void BeginPlay() override;
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Components")
+	USceneComponent* SceneRootComp;
 	
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category="Mesh")
 	USkeletalMeshComponent* SkeletalMesh;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Spin")
-	int32 RotateCount;
+	int32 RotateMinCount;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Spin")
+	int32 RotateMaxCount;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Spin")
 	float RotateAmount;
 	
