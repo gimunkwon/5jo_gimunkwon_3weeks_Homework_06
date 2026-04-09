@@ -1,18 +1,21 @@
 #include "NBC_HomeWork_06/Public/MapObject/MovingActor.h"
 
+#include "Components/AudioComponent.h"
 #include "Components/PointLightComponent.h"
 #include "Engine/PointLight.h"
 #include "Engine/World.h"
+#include "Kismet/GameplayStatics.h"
 #include "MapObject/CustomRotatingActor.h"
 #include "MapObject/RotatingActor.h"
-
 
 AMovingActor::AMovingActor()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	
+	SceneRootComp = CreateDefaultSubobject<USceneComponent>(FName("SceneRootComp"));
+	RootComponent = SceneRootComp;
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
-	StaticMesh->SetupAttachment(RootComponent);
+	StaticMesh->SetupAttachment(SceneRootComp);
 	StaticMesh->SetCollisionProfileName(TEXT("NoCollision"));
 	
 	MoveSpeed = 1.f;
@@ -70,9 +73,22 @@ void AMovingActor::Tick(float DeltaTime)
 		{
 			OnMovingDestroyed.Broadcast();
 		}
+		PlayBGM();
 		Destroy();
 	}
 	
-	
 }
 
+void AMovingActor::PlayBGM()
+{
+	if (AudioComp && AudioComp->IsPlaying())
+	{
+		UE_LOG(LogTemp,Warning,TEXT("BGM already Playing!!"));
+		return;
+	}
+	
+	if (BGMSound)
+	{
+		AudioComp = UGameplayStatics::SpawnSound2D(GetWorld(), BGMSound);
+	}
+}
