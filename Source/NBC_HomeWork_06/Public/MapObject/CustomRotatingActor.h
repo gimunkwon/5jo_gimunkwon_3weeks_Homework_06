@@ -27,9 +27,11 @@ protected:
 	AMovingActor* DestroyMovingActor;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Spin")
 	float SpinSpeed;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="SpinTest")
+	bool bIsSpinning;
 private:
 	float CurrentSpinAmount;
-	bool bIsSpinning;
 	FTimerHandle SpinTimerHandle;
 	UPROPERTY()
 	UAnimInstance* AnimInstance;
